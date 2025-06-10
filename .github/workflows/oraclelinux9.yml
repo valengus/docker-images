@@ -22,7 +22,7 @@ jobs:
 
     - name: Test
       run: |
-        packer build -var-file="vars/oraclelinux9.pkrvars.hcl" -only='docker.test' docker.pkr.hcl
+        packer build -var-file="vars/oraclelinux9.pkrvars.hcl" -only='*.docker.test' docker.pkr.hcl
 
     - name: Push
       run: |
