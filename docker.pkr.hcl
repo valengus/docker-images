@@ -91,7 +91,7 @@ build {
 
 }
 
-# TEST
+## TEST
 source "docker" "test" {
   image       = "local/${var.image_name}"
   run_command = [ "-dit", "--name", "packer-test-${var.image_name}", "{{.Image}}", "/bin/sh" ]
