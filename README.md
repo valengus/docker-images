@@ -12,7 +12,7 @@ packer build -var-file="vars/oraclelinux9.pkrvars.hcl" -only='*.docker.build' do
 ### Test
 ```bash
 packer build -var-file="vars/oraclelinux9.pkrvars.hcl" -only='*.docker.test' docker.pkr.hcl
-``
+```
 
 ### Push
 ```bash
