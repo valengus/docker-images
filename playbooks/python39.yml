@@ -1,0 +1,17 @@
+---
+- name: Install
+  hosts: all
+  become: true
+
+  tasks:
+
+  - name: Python3 | Install pkgs
+    ansible.builtin.dnf:
+      name: 
+      - python3.9
+      - python3.9-pip
+      state: present
+
+  - name: Python3 | Update pip3
+    ansible.builtin.pip:
+      name: pip
