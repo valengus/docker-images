@@ -15,3 +15,8 @@
   - name: Python3 | Update pip3
     ansible.builtin.pip:
       name: pip
+  
+  - name: Python3 | Update pip3
+    ansible.builtin.pip:
+      name: pip
+      extra_args: " --upgrade"
