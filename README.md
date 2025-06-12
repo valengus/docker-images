@@ -1,3 +1,14 @@
+```bash
+.
+├── docker.pkr.hcl
+├── playbooks
+│   ├── oraclelinux9.yml
+│   └── python39.yml
+└── vars
+    ├── oraclelinux9.pkrvars.hcl
+    └── python39.pkrvars.hcl
+```
+
 ### Prepare
 ```bash
 packer init docker.pkr.hcl

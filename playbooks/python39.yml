@@ -5,17 +5,14 @@
 
   tasks:
 
-  - name: Python3 | Install pkgs
+  - name: Python3 | Install python3.9
     ansible.builtin.dnf:
       name: 
       - python3.9
       - python3.9-pip
+      - python3.9-setuptools
       state: present
 
-  - name: Python3 | Update pip3
-    ansible.builtin.pip:
-      name: pip
-  
   - name: Python3 | Update pip3
     ansible.builtin.pip:
       name: pip

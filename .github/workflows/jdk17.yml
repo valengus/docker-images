@@ -1,0 +1,51 @@
+name: jdk17
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [ oraclelinux9 ]
+    types: [ completed ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PKR_VAR_github_token: ${{ secrets.TOKEN }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Prepare
+      run: |
+        packer init docker.pkr.hcl
+
+    - name: Build
+      run: |
+        packer build -var-file="vars/jdk17.pkrvars.hcl" -only='*.docker.build' docker.pkr.hcl
+
+    - name: Test
+      run: |
+        packer build -var-file="vars/jdk17.pkrvars.hcl" -only='*.docker.test' docker.pkr.hcl
+
+    - name: Push
+      run: |
+        packer build -var-file="vars/jdk17.pkrvars.hcl" -only='docker.push' docker.pkr.hcl
+
+    - name: Delete old untagged images
+      uses: actions/delete-package-versions@v4
+      with:
+        package-name: 'jdk17'
+        package-type: 'container'
+        min-versions-to-keep: 0
+        delete-only-untagged-versions: true
+        token: ${{ secrets.TOKEN }}
+    
+    - name: Delete old tagged images (older than 30 days)
+      uses: actions/delete-package-versions@v4
+      with:
+        package-name: 'jdk17'
+        package-type: 'container'
+        min-versions-to-keep: 3
+        delete-only-untagged-versions: false
+        ignore-versions: '^$'
+        token: ${{ secrets.TOKEN }}
