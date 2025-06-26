@@ -41,6 +41,7 @@
     yum:
       name:
         - php
+        - php-fpm
         - php-cli
         - php-mysqlnd
         - php-zip

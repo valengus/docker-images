@@ -1,0 +1,12 @@
+---
+- name: Test
+  hosts: all
+  become: true
+
+  tasks:
+
+  - name: nginx -v
+    ansible.builtin.shell: nginx -v
+
+  - name: supervisord -v
+    ansible.builtin.shell: supervisord -v

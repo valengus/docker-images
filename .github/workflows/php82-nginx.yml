@@ -1,4 +1,4 @@
-name: php82-composer
+name: php82-nginx
 on:
   workflow_dispatch:
   workflow_run:
@@ -21,20 +21,20 @@ jobs:
 
     - name: Build
       run: |
-        packer build -var-file="vars/php82-composer.pkrvars.hcl" -only='*.docker.build' docker.pkr.hcl
+        packer build -var-file="vars/php82-nginx.pkrvars.hcl" -only='*.docker.build' docker.pkr.hcl
 
     - name: Test
       run: |
-        packer build -var-file="vars/php82-composer.pkrvars.hcl" -only='*.docker.test' docker.pkr.hcl
+        packer build -var-file="vars/php82-nginx.pkrvars.hcl" -only='*.docker.test' docker.pkr.hcl
 
     - name: Push
       run: |
-        packer build -var-file="vars/php82-composer.pkrvars.hcl" -only='docker.push' docker.pkr.hcl
+        packer build -var-file="vars/php82-nginx.pkrvars.hcl" -only='docker.push' docker.pkr.hcl
 
     - name: Delete old untagged images
       uses: actions/delete-package-versions@v4
       with:
-        package-name: 'php82-composer'
+        package-name: 'php82-nginx'
         package-type: 'container'
         min-versions-to-keep: 0
         delete-only-untagged-versions: true
@@ -43,7 +43,7 @@ jobs:
     - name: Delete old tagged images (older than 30 days)
       uses: actions/delete-package-versions@v4
       with:
-        package-name: 'php82-composer'
+        package-name: 'php82-nginx'
         package-type: 'container'
         min-versions-to-keep: 3
         delete-only-untagged-versions: false
