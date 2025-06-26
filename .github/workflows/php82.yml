@@ -1,4 +1,4 @@
-name: jdk17
+name: php82
 on:
   workflow_dispatch:
   workflow_run:
