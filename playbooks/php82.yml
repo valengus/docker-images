@@ -1,0 +1,65 @@
+---
+- name: Install
+  hosts: all
+  become: true
+
+  vars:
+    php_version: "8.2"
+
+  handlers:
+
+  - name: Update yum cache
+    yum:
+      update_cache: true
+
+  tasks:
+
+  - name: Install PHP | Install remi-release
+    yum:
+      name: "http://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+      state: present
+      disable_gpg_check: true
+
+  - name: Install PHP | Install yum remi module
+    ini_file:
+      path: /etc/dnf/modules.d/php.module
+      section: 'php'
+      option: "{{ item.name }}"
+      value: "{{ item.value }}"
+      no_extra_spaces: yes
+    with_items:
+    - {name: "name", value: "php"}
+    - {name: "state", value: "enabled"}
+    - {name: "stream", value: "remi-{{ php_version }}"}
+    - {name: "profiles", value: ""}
+    notify: Update yum cache
+
+  - name: Flush handlers
+    meta: flush_handlers
+
+  - name: Install PHP | Install PHP packages
+    yum:
+      name:
+        - php
+        - php-cli
+        - php-mysqlnd
+        - php-zip
+        - php-devel
+        - php-gd
+        - php-mbstring
+        - php-curl
+        - php-xml
+        - php-pear
+        - php-bcmath
+        - php-json
+
+  - name: Download Composer install script
+    get_url:
+      dest: /usr/src/composer-setup.php
+      url: https://getcomposer.org/installer
+
+  - name: Install Composer
+    shell: php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+    args:
+      chdir: /usr/src/
+      creates: /usr/local/bin/composer
