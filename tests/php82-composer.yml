@@ -7,3 +7,6 @@
 
   - name: php -v
     ansible.builtin.shell: php -v
+
+  - name: composer --version
+    ansible.builtin.shell: composer --version

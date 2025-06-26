@@ -1,0 +1,17 @@
+---
+- name: Install
+  hosts: all
+  become: true
+
+  tasks:
+
+  - name: Download Composer install script
+    get_url:
+      dest: /usr/src/composer-setup.php
+      url: https://getcomposer.org/installer
+
+  - name: Install Composer
+    shell: php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+    args:
+      chdir: /usr/src/
+      creates: /usr/local/bin/composer
